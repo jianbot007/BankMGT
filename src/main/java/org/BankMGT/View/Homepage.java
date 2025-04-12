@@ -9,12 +9,12 @@ import java.util.Scanner;
 
 public class Homepage {
     User user;
-    public void Homepage(User user){
+    public void Homepage(User user, ArrayList<User> userlist){
         int option = 0;
         this.user = user;
         Scanner scanner = new Scanner(System.in);
         Banking banking = new Banking();
-        banking.Banking(user);
+        banking.Banking(user, userlist);
         System.out.println("Welcome to JY Bank");
         System.out.println("--------------------------------");
         System.out.println("1. Deposit");
@@ -22,6 +22,7 @@ public class Homepage {
         System.out.println("3. Transfer");
         System.out.println("4. Check Balance");
         System.out.println("5. Logout");
+        System.out.println("6.All User List");
 
         option = Integer.parseInt(scanner.nextLine());
 
@@ -41,11 +42,10 @@ public class Homepage {
             System.out.println("Withdraw Successful");
         }
         else if(option == 3) {
-            ArrayList<User> userList = (ArrayList<User>) user.getUserlist();
             User ReceiverUser = null;
             System.out.println("Enter User ID to Transfer:");
             String userID = scanner.nextLine();
-            for (User getuser : userList) {
+            for (User getuser : userlist) {
                 if (getuser.getUserID().equals(userID)) {
                     ReceiverUser = getuser;
                 }
@@ -63,6 +63,9 @@ public class Homepage {
         }
         else if(option == 4){
           banking.Balance();
+        }
+        else if(option == 6){
+            banking.Alluser();
         }
         else{
             System.out.println("Invalid Option");

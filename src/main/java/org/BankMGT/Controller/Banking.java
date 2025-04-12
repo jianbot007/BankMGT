@@ -4,12 +4,16 @@ import org.BankMGT.Entity.User;
 import org.BankMGT.View.Homepage;
 import org.BankMGT.View.WelcomePage;
 
+import java.util.ArrayList;
+
 public class Banking {
      User user;
-    public void Banking(User user){
+     ArrayList<User> UserList= new ArrayList<>();
+    public void Banking(User user,ArrayList<User> userlist){
         System.out.println("Welcome to JY Bank" + user.getUserName());
         System.out.println("--------------------------------");
         this.user = user;
+        this.UserList = userlist;
     }
     public void Deposit(float amount){
         float Depositedmoney = user.getAmountofMoney();
@@ -42,10 +46,19 @@ public class Banking {
         WelcomePage welcomePage = new WelcomePage();
         System.out.println("--------------------------------");
         System.out.println("Logout Successful");
-        welcomePage.Welcome();
+        welcomePage.Welcome(UserList);
     }
     public void ReturnHomePage(){
         Homepage homepage = new Homepage();
-        homepage.Homepage(user);
+        homepage.Homepage(user,UserList);
+    }
+    public void Alluser(){
+        for(User user : UserList) {
+            System.out.println("User Name :" + user.getUserName());
+            System.out.println("User ID :" + user.getUserID());
+            System.out.println("Balance :" + user.getAmountofMoney());
+            System.out.println();
+        }
+        ReturnHomePage();
     }
 }

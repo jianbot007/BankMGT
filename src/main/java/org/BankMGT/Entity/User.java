@@ -12,7 +12,7 @@ public class User {
     private int mobileNumber;
     private String gender;
     private int age;
-    List<User> Userlist = new ArrayList<>();
+
 
     // Constructor
     public User(String userID, String userName, String email, String password, float amountofMoney, int mobileNumber, String gender,int age) {
@@ -86,11 +86,5 @@ public class User {
 
     public void setAge(int age) {
         this.age = age;
-    }
-    public void AddUserlist(User user){
-        Userlist.add(user);
-    }
-    public List<User> getUserlist() {
-        return Userlist;
     }
 }

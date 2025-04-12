@@ -7,7 +7,7 @@ import java.util.*;
 
 public class UserRegistration {
 
-    public void Registration(){
+    public void Registration(ArrayList<User> userlist){
 
         Scanner scanner = new Scanner(System.in);
 
@@ -42,12 +42,12 @@ public class UserRegistration {
 
         // Create User object
         User newUser = new User(userID, userName, email, password, amountofMoney, mobileNumber, gender,age);
-        newUser.AddUserlist(newUser);
+        userlist.add(newUser);
         System.out.println("\n✅ Registration Successful!");
         System.out.println("Welcome, " + newUser.getUserName());
 
         Homepage homepage = new Homepage();
-        homepage.Homepage(newUser);
+        homepage.Homepage(newUser,userlist);
 
         scanner.close();
     }

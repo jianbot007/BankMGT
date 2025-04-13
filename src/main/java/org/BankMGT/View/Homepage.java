@@ -5,6 +5,7 @@ import org.BankMGT.Entity.User;
 
 import javax.sound.midi.Receiver;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Homepage {
@@ -45,11 +46,16 @@ public class Homepage {
             User ReceiverUser = null;
             System.out.println("Enter User ID to Transfer:");
             String userID = scanner.nextLine();
+
+
+            Optional<User> usermatch = userlist.stream().filter(u -> u.getUserID().equals(userID)).findFirst();
+            ReceiverUser = usermatch.orElse(null);
+            /*
             for (User getuser : userlist) {
                 if (getuser.getUserID().equals(userID)) {
                     ReceiverUser = getuser;
-                }
-            }
+                }*/
+
             System.out.println("Enter Amount of Money to Transfer:");
             float amount = Float.parseFloat(scanner.nextLine());
             if (ReceiverUser == null){
@@ -58,8 +64,8 @@ public class Homepage {
              banking.Withdrawn((int) amount);
         }
 
-                banking.Transfer(ReceiverUser, amount);
-                System.out.println("Transfer Successful");
+            banking.Transfer(ReceiverUser, amount);
+            System.out.println("Transfer Successful");
         }
         else if(option == 4){
           banking.Balance();

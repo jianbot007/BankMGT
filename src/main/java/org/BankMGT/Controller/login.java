@@ -3,6 +3,7 @@ import org.BankMGT.Entity.User;
 import org.BankMGT.View.Homepage;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class login {
@@ -11,11 +12,11 @@ public class login {
     private String password;
 
 
-    public login(ArrayList<User> userlist){
+         public login(ArrayList<User> userlist){
         this.userlist = userlist;
-    }
+        }
 
-    private void UserInput(){
+        private void UserInput(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your Username :");
         username = scanner.nextLine();
@@ -23,14 +24,17 @@ public class login {
         password = scanner.nextLine();
         CheckPassword(username,password);
         }
+
         private void CheckPassword(String name, String password){
-         for(User user : userlist){
-             if(user.getUserName().equals(name) && user.getUserName().equals(password)){
-                 Homepage home = new Homepage();
-                 home.Homepage(user,userlist);
-             }
+             Optional<User> usermatch = userlist.stream().filter(u -> u.getUserName().equals(name)).findFirst();
+
+         usermatch.ifPresent(user1 -> {
+             Homepage homepage = new Homepage();
+             homepage.Homepage(user1, userlist);
+         });
+
         }
-        }
+
         public void LoginUser(){
         UserInput();
     }

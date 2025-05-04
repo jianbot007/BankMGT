@@ -1,0 +1,72 @@
+package com.BankMGT.BankMGT.Model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+
+    @Component
+    @Entity
+    public class Transaction {
+        @Id
+        @GeneratedValue
+        private Long id;
+        private String type; // DEPOSIT, WITHDRAW, TRANSFER
+        private Double amount;
+        private LocalDateTime date;
+
+        @ManyToOne
+        private Account account;
+
+        public Transaction() {}
+
+        public Transaction(Long id, String type, Double amount, LocalDateTime date, Account account) {
+            this.id = id;
+            this.type = type;
+            this.amount = amount;
+            this.date = date;
+            this.account = account;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public Double getAmount() {
+            return amount;
+        }
+
+        public LocalDateTime getDate() {
+            return date;
+        }
+
+        public Account getAccount() {
+            return account;
+        }
+
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public void setAmount(Double amount) {
+            this.amount = amount;
+        }
+
+        public void setDate(LocalDateTime date) {
+            this.date = date;
+        }
+
+        public void setAccount(Account account) {
+            this.account = account;
+        }
+    }
+
+

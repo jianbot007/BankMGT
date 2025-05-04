@@ -1,0 +1,12 @@
+spring.application.name=BankMGT
+server.port=8090
+spring.datasource.url=jdbc:h2:~/bankdb;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.show-sql=true
+spring.datasource.username=ijaj
+spring.datasource.password=ijaj
+spring.jpa.hibernate.ddl-auto=update
+
+
+
+

@@ -29,6 +29,7 @@ public class RegistrationController {
             }
         }
 
+
             User1 savedUser = userRepo.save(user);
             account.setAccountNumber(user.getUsername()+user.getId()+user.getAge());
             account.setUser(savedUser);
@@ -45,6 +46,7 @@ public class RegistrationController {
         if (!user.isPresent()) {
             return "User not found!";
         }
+
         User1 user1 = user.get();
         if (!user1.getPassword().equals(loginRequest.getPassword())) {
             return "Incorrect password!";

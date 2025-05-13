@@ -1,0 +1,39 @@
+package com.BankMGT.BankMGT.Controller;
+
+
+import com.BankMGT.BankMGT.Model.Account;
+import com.BankMGT.BankMGT.Repo.AccountRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/adminFeatures")
+public class AdminFeatures {
+
+    @Autowired
+    private AccountRepo accRepo;
+
+
+    @GetMapping("/Allusers")
+    public List<Account> ShowUsers() {
+
+        List<Account> users = accRepo.findAll();
+
+        return users;
+    }
+    @GetMapping("/restrictAccount")
+    public void restrictAccount(@RequestBody Account account) {
+        if(account.getIsActive() == true) {
+            account.setIsActive(false);
+        }
+        else{
+            account.setIsActive(true);
+        }
+        accRepo.save(account);
+    }
+}

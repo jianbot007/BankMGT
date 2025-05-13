@@ -27,6 +27,9 @@ public class TransactionController {
         String accno = (String) session.getAttribute("accountNumber");
         Optional<Account> acc = accountRepo.findByAccountNumber(accno);
         Account account = acc.get();
+        if(account.getIsActive()==false){
+            return "Account is blocked....Please Contact with nearest branch";
+        }
         if (acc.isPresent() && account.getBalance() >= request.getAmount()) {
 
             account.setBalance(account.getBalance() - request.getAmount());
@@ -46,8 +49,13 @@ public class TransactionController {
         Optional<Account> acc = accountRepo.findByAccountNumber(accno);
 
         Account account = null;
+        account = acc.get();
+
+        if(!account.getIsActive()){
+            return "Account is blocked....Please Contact with nearest branch";
+        }
         if (acc.isPresent()) {
-            account = acc.get();
+
             account.setBalance(account.getBalance() + request.getAmount());
             accountRepo.save(account);
             transactionRepo.save(new com.BankMGT.BankMGT.Model.Transaction(null, "DEPOSIT", request.getAmount(), null, account));
@@ -65,6 +73,11 @@ public class TransactionController {
         Account account = acc.get();
         Account account2 = acc2.get();
         Double amount = transfer.getAmount();
+
+        if(!account.getIsActive() && !account2.getIsActive()){
+            return "Account is blocked....Please Contact with nearest branch";
+        }
+
         if (acc.isPresent() && acc2.isPresent() && account.getBalance() >= amount) {
 
             account.setBalance(account.getBalance() - amount);

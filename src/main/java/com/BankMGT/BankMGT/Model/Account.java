@@ -14,6 +14,7 @@ public class Account {
         private Long id;
         private String accountNumber;
         private Double balance;
+        private Boolean isActive = true;
 
         @ManyToOne
         private User1 user;
@@ -52,6 +53,13 @@ public class Account {
 
         public void setUser(User1 user) {
             this.user = user;
+        }
+
+        public Boolean getIsActive() {
+            return isActive;
+        }
+        public void setIsActive(Boolean isActive) {
+            this.isActive = isActive;
         }
     }
 

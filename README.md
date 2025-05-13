@@ -1,8 +1,8 @@
 # BankMGT - Bank Management System
 
-This is a backend project built using Spring Boot for learning purpose. It simulates basic banking operations such as user registration, transactions, and admin-level operations.
-*User can login,register,withdraw,transfer,deposit money.
-*Admin can restrict a user.Restrict user cant do any transactions.
+This is a backend project built using Spring Boot for learning purposes. It simulates basic banking operations such as user registration, transactions, and admin-level operations.
+User can log in, register, withdraw, transfer, and deposit money.
+Admin can restrict a user. Restrict users can't perform any transactions.
 
 ## 🛠 Technologies Used
 
@@ -36,30 +36,30 @@ This is a backend project built using Spring Boot for learning purpose. It simul
 
    The backend will start at:  
    ```
-   http://localhost:8080
+   http://localhost:8090
    ```
 
 ## 📮 How to Test with Postman
 
 ### 1. Test if Server is Running
 - Method: `GET`  
-- URL: `http://localhost:8080/test`
+- URL: `http://localhost:8090/test`
 
 ### 2. Register a New User
 - Method: `POST`  
-- URL: `http://localhost:8080/register`  
+- URL: `http://localhost:8090/api/users/register`  
 - Body (JSON):
    ```json
    {
      "name": "John Doe",
-     "email": "john@example.com",
      "password": "password123"
+     "age" : 21
    }
    ```
 
 ### 3. Perform a Transaction
 - Method: `POST`  
-- URL: `http://localhost:8080/transaction`  
+- URL: `http://localhost:8090/api/transaction/transfer`  
 - Body (JSON):
    ```json
    {
@@ -71,7 +71,7 @@ This is a backend project built using Spring Boot for learning purpose. It simul
 
 ### 4. Admin Actions (Example)
 - Method: `GET`  
-- URL: `http://localhost:8080/admin/users`
+- URL: `http://localhost:8090/api/adminFeatures/Allusers`
 
 > (*Update URLs based on your actual controller mappings if needed.*)
 

@@ -15,7 +15,7 @@ Admin can restrict a user. Restrict users can't perform any transactions.
 
 1. **Clone or Download the Project**
    ```
-   git clone the repo
+   git clone the repo https://github.com/jianbot007/BankMGT.git
    ```
    Or simply unzip the folder if you downloaded the ZIP file.
 

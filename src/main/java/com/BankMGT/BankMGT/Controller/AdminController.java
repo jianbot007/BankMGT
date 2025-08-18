@@ -1,57 +1,41 @@
 package com.BankMGT.BankMGT.Controller;
-
 import com.BankMGT.BankMGT.DTO.AdminDTO;
-import com.BankMGT.BankMGT.Model.Admins;
-import com.BankMGT.BankMGT.Repo.AdminRepo;
+import com.BankMGT.BankMGT.Model.Account;
+import com.BankMGT.BankMGT.Service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
-@RequestMapping("api/adminRegister")
+@RequestMapping("api/admin")
 public class AdminController {
-    @Autowired
-    AdminRepo adminRepo;
-    @Autowired
-    Admins admin;
-    @PostMapping("/adminLogin")
-    public String AdminLogin(@RequestBody AdminDTO adminsDTO) {
-       Optional<Admins> admin = adminRepo.findByUsername(adminsDTO.getUsername());
 
-       if(!admin.isPresent()) {
-           return "User not found!";
-       }
-       Admins admin1 = admin.get();
-       if(!admin1.getPassword().equals(adminsDTO.getPassword())) {
-           return "Admin Incorrect password!";
-       }
-       else {
-           return "Admin Login successful!";
-    }
-}
-@PostMapping("/adminRegister")
-public String AdminRegister(@RequestBody AdminDTO adminsDTO) {
-      List<Admins> AdminList = adminRepo.findAll();
+    @Autowired
+    private AdminService adminService;
 
-    if(adminsDTO.getUsername() == null || adminsDTO.getPassword() == null) {
-        return "Null value found!";
+    // --- Auth Endpoints ---
+    @PostMapping("/login")
+    public ResponseEntity<?> loginAdmin(@RequestBody AdminDTO loginRequest) {
+        String token = adminService.login(loginRequest.getUsername(), loginRequest.getPassword());
+        return ResponseEntity.ok(Map.of("token", token));
     }
 
-      for(Admins admin : AdminList) {
-          if(admin.getUsername().equals(adminsDTO.getUsername())) {
-              return "Username Already Registered in Admin!";
-          }
-      }
+    @PostMapping("/register")
+    public String adminRegister(@RequestBody AdminDTO adminsDTO) {
+        return adminService.adminRegister(adminsDTO);
+    }
 
-    Admins admin = new Admins(adminsDTO.getUsername(), adminsDTO.getPassword());
-    adminRepo.save(admin);
-   return "Admin Register Successfully Done";
-}
+    // --- Features Endpoints ---
+    @GetMapping("/all-users")
+    public List<Account> showUsers() {
+        return adminService.getAllUsers();
+    }
 
+    @PostMapping("/restrict-account")
+    public String restrictAccount(@RequestBody Account account) {
+        return adminService.toggleAccountStatus(account);
+    }
 }

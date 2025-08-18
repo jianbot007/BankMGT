@@ -34,6 +34,8 @@ public class RegistrationController {
             account.setAccountNumber(user.getUsername()+user.getId()+user.getAge());
             account.setUser(savedUser);
             account.setBalance(500.0);
+            byte[] rawData = new byte[] { 1, 2, 3, 4, 5 };
+            account.saveImage(rawData);
             accountrepo.save(account);
 
       return "Hi Mr. " + user.getUsername() + " Your Registration Successfully Done";

@@ -14,8 +14,17 @@ public class Admins {
     private long id;
     private String username;
     private String password;
+    private String role = "ROLE_ADMIN";
 
     public Admins() {
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Admins(String username, String password) {

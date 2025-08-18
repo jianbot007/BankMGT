@@ -1,0 +1,86 @@
+package com.BankMGT.BankMGT.Service;
+
+import com.BankMGT.BankMGT.DTO.AdminDTO;
+import com.BankMGT.BankMGT.Model.Admins;
+import com.BankMGT.BankMGT.Model.Account;
+import com.BankMGT.BankMGT.Repo.AdminRepo;
+import com.BankMGT.BankMGT.Repo.AccountRepo;
+import com.BankMGT.BankMGT.Security.JwtUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class AdminService {
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+    @Autowired
+    private AdminRepo adminRepo;
+
+    @Autowired
+    private AccountRepo accountRepo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public String login(String username, String password) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, password)
+        );
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+
+        return jwtUtil.generateToken(
+                userDetails.getUsername(),
+                userDetails.getAuthorities().iterator().next().getAuthority()
+        );
+    }
+    public String adminRegister(AdminDTO adminsDTO) {
+        List<Admins> adminList = adminRepo.findAll();
+
+        if (adminsDTO.getUsername() == null || adminsDTO.getPassword() == null) {
+            return "Null value found!";
+        }
+
+        for (Admins admin : adminList) {
+            if (admin.getUsername().equals(adminsDTO.getUsername())) {
+                return "Username Already Registered in Admin!";
+            }
+        }
+         adminsDTO.setPassword(passwordEncoder.encode(adminsDTO.getPassword()));
+        Admins admin = new Admins(adminsDTO.getUsername(), adminsDTO.getPassword());
+        adminRepo.save(admin);
+        return "Admin Register Successfully Done";
+    }
+
+    // --- Admin Features ---
+    public List<Account> getAllUsers() {
+        return accountRepo.findAll();
+    }
+
+    public String toggleAccountStatus(Account account) {
+        if (account.getIsActive() == null) {
+            return "Account status not set!";
+        }
+
+        if (account.getIsActive()) {
+            account.setIsActive(false);
+        } else {
+            account.setIsActive(true);
+        }
+
+        accountRepo.save(account);
+        return "Account status updated successfully!";
+    }
+}

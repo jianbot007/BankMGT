@@ -1,10 +1,10 @@
 package com.BankMGT.BankMGT.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Component
 @Entity
@@ -15,16 +15,19 @@ public class Account {
         private String accountNumber;
         private Double balance;
         private Boolean isActive = true;
+        @Lob
+        private byte[] image;
 
         @ManyToOne
         private User1 user;
 
         public Account() {}
 
-        public Account( String accountNumber, Double balance, User1 user) {
+        public Account( String accountNumber, Double balance, User1 user, byte[] image) {
             this.accountNumber = accountNumber;
             this.balance = balance;
             this.user = user;
+            this.image = image;
         }
 
         public Long getId() {
@@ -61,5 +64,9 @@ public class Account {
         public void setIsActive(Boolean isActive) {
             this.isActive = isActive;
         }
+
+    public void setImage(byte[] image) {
+            this.image = image;
     }
+}
 

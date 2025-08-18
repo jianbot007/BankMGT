@@ -1,0 +1,109 @@
+package com.BankMGT.BankMGT.Service;
+
+import com.BankMGT.BankMGT.DTO.TransactionRequestDTO;
+import com.BankMGT.BankMGT.DTO.TransferDTO;
+import com.BankMGT.BankMGT.Model.Account;
+import com.BankMGT.BankMGT.Model.Transaction;
+import com.BankMGT.BankMGT.Repo.AccountRepo;
+import com.BankMGT.BankMGT.Repo.TransactionRepo;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class TransactionService {
+
+    @Autowired
+    private AccountRepo accountRepo;
+
+    @Autowired
+    private TransactionRepo transactionRepo;
+
+    public String withdraw(TransactionRequestDTO request, HttpSession session) {
+        String accno = (String) session.getAttribute("accountNumber");
+        Optional<Account> acc = accountRepo.findByAccountNumber(accno);
+
+        if (!acc.isPresent()) {
+            return "Account not found, please login again";
+        }
+
+        Account account = acc.get();
+
+        if (!account.getIsActive()) {
+            return "Account is blocked. Please contact nearest branch.";
+        }
+
+        if (account.getBalance() < request.getAmount()) {
+            return "Insufficient balance!";
+        }
+
+        account.setBalance(account.getBalance() - request.getAmount());
+        accountRepo.save(account);
+
+        transactionRepo.save(new Transaction(null, "WITHDRAW", request.getAmount(), null, account));
+
+        return "Withdrawn successfully. Remaining balance: " + account.getBalance();
+    }
+
+    // --- Deposit ---
+    public String deposit(TransactionRequestDTO request, HttpSession session) {
+        String accno = (String) session.getAttribute("accountNumber");
+        Optional<Account> acc = accountRepo.findByAccountNumber(accno);
+
+        if (!acc.isPresent()) {
+            return "Account not found, please login again";
+        }
+
+        Account account = acc.get();
+
+        if (!account.getIsActive()) {
+            return "Account is blocked. Please contact nearest branch.";
+        }
+
+        account.setBalance(account.getBalance() + request.getAmount());
+        accountRepo.save(account);
+
+        transactionRepo.save(new Transaction(null, "DEPOSIT", request.getAmount(), null, account));
+
+        return "Deposit successful. New balance: " + account.getBalance();
+    }
+
+    // --- Transfer ---
+    public String transfer(TransferDTO transfer, HttpSession session) {
+        String accno = (String) session.getAttribute("accountNumber");
+        Optional<Account> acc = accountRepo.findByAccountNumber(accno);
+        Optional<Account> acc2 = accountRepo.findByAccountNumber(transfer.getReceiverAccount());
+
+        if (!acc.isPresent() || !acc2.isPresent()) {
+            return "Sender or receiver account not found!";
+        }
+
+        Account sender = acc.get();
+        Account receiver = acc2.get();
+
+        if (!sender.getIsActive() || !receiver.getIsActive()) {
+            return "One of the accounts is blocked. Please contact branch.";
+        }
+
+        if (sender.getBalance() < transfer.getAmount()) {
+            return "Insufficient balance!";
+        }
+
+        // Deduct from sender
+        sender.setBalance(sender.getBalance() - transfer.getAmount());
+
+        // Add to receiver
+        receiver.setBalance(receiver.getBalance() + transfer.getAmount());
+
+        accountRepo.save(sender);
+        accountRepo.save(receiver);
+
+        // Save transactions
+        transactionRepo.save(new Transaction(null, "TRANSFER", transfer.getAmount(), null, sender));
+        transactionRepo.save(new Transaction(null, "RECEIVE", transfer.getAmount(), null, receiver));
+
+        return "Transfer successful. New balance: " + sender.getBalance();
+    }
+}

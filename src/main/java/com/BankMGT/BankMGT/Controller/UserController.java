@@ -1,0 +1,33 @@
+package com.BankMGT.BankMGT.Controller;
+import com.BankMGT.BankMGT.DTO.UserLoginDTO;
+import com.BankMGT.BankMGT.Model.User1;
+import com.BankMGT.BankMGT.Service.UserService;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    // Registration endpoint
+    @PostMapping("/register")
+    public String registerUser(@RequestBody User1 user) {
+        return userService.registerUser(user);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody UserLoginDTO loginRequest) {
+        // Call the service to authenticate and generate JWT
+        String token = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
+
+        // Return the token as JSON
+        return ResponseEntity.ok(Map.of("token", token));
+    }
+}

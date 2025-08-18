@@ -1,0 +1,4 @@
+package com.BankMGT.BankMGT.DTO;
+
+public class UserLoginDTO {
+}

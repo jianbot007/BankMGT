@@ -14,7 +14,7 @@ public class User1 {
     private String username;
     private String password;
     private int age;
-
+    private String role = "ROLE_USER";
     public User1() {}
 
     public User1(long id, String username, String password, int age) {
@@ -22,6 +22,14 @@ public class User1 {
         this.username = username;
         this.password = password;
         this.age = age;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     public long getId() {

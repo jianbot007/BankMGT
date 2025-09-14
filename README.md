@@ -1,96 +1,111 @@
-# BankMGT - Bank Management System
+# 🏦 Bank Management System
 
-This is a backend project built using Spring Boot for learning purposes. It simulates basic banking operations such as user registration, transactions, and admin-level operations.
-User can log in, register, withdraw, transfer, and deposit money.
-Admin can restrict a user. Restrict users can't perform any transactions.
+A professional, secure, and scalable Bank Management System built with Spring Boot.  
+_This is a pet project designed for learning and demonstrating best practices in modern Java web application development._
 
-## 🛠 Technologies Used
+---
 
-- Java 21
-- Spring Boot 3.4.5
-- Maven
-- REST APIs
+## 🌟 Overview
 
-## 🚀 How to Run the Project
+The **Bank Management System** is a full-featured backend application that manages banking operations, user authentication, and data storage. This project leverages industry-standard libraries and design patterns to ensure maintainability, security, and scalability.
 
-1. **Clone or Download the Project**
-   ```
-   git clone the repo https://github.com/jianbot007/BankMGT.git
-   ```
-   Or simply unzip the folder if you downloaded the ZIP file.
+---
 
-2. **Open the Project in an IDE**
-   - Use IntelliJ IDEA, Eclipse, or any Java IDE.
-   - Import it as a **Maven** project.
+## 🔐 Security
 
-3. **Build the Project**
-   In the terminal, navigate to the project folder and run:
-   ```
-   ./mvnw clean install
-   ```
+- **Spring Security**: Provides robust authentication and authorization.
+- **JWT (JSON Web Tokens)**: Implements stateless, token-based user authentication for secure API access.
 
-4. **Run the Application**
-   ```
-   ./mvnw spring-boot:run
-   ```
+---
 
-   The backend will start at:  
-   ```
-   http://localhost:8090
-   ```
+## 🏗️ Architecture & Design Patterns
 
-## 📮 How to Test with Postman
+- **Controller-Service-Repository Pattern**: Clean separation of concerns for maintainable code.
+- **DTO (Data Transfer Object)**: Used to transfer data efficiently and securely between layers.
+- **Hibernate ORM**: Handles database interactions and object-relational mapping.
 
-### 1. Test if Server is Running
-- Method: `GET`  
-- URL: `http://localhost:8090/test`
+---
 
-### 2. Register a New User
-- Method: `POST`  
-- URL: `http://localhost:8090/api/users/register`  
-- Body (JSON):
-   ```json
-   {
-     "name": "John Doe",
-     "password": "password123"
-     "age" : 21
-   }
-   ```
+## 🚀 Features
 
-### 3. Perform a Transaction
-- Method: `POST`  
-- URL: `http://localhost:8090/api/transaction/transfer`  
-- Body (JSON):
-   ```json
-   {
-     "fromAccount": "123456",
-     "toAccount": "654321",
-     "amount": 1000
-   }
-   ```
+- **User Authentication & Authorization** (JWT + Spring Security)
+- **Account Management**: Create, retrieve, update, and delete bank accounts
+- **Transaction Management**: Deposit, withdrawal, and transfer operations
+- **Customer Management**: Manage customer information and profiles
+- **Role-based Access**: Different roles for admin and customers
+- **RESTful API Endpoints**: Clean and well-documented endpoints
 
-### 4. Admin Actions (Example)
-- Method: `GET`  
-- URL: `http://localhost:8090/api/adminFeatures/Allusers`
+---
 
-> (*Update URLs based on your actual controller mappings if needed.*)
+## 🛠️ Tech Stack
+
+- **Backend**: Spring Boot, Spring Security, JWT, Hibernate (JPA)
+- **Database**: H2 (for development), compatible with MySQL/PostgreSQL
+- **Build Tool**: Maven/Gradle
+- **Language**: Java
+
+---
+
+## 🏁 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/jianbot007/BankMGT.git
+cd BankMGT
+```
+
+### 2. Configure the Database
+
+- By default, the project uses an in-memory H2 database for development.
+- To use MySQL or PostgreSQL, update the `application.properties` file with your database connection details.
+
+### 3. Run the Application
+
+```bash
+./mvnw spring-boot:run
+```
+_or_
+```bash
+./gradlew bootRun
+```
+
+### 4. Access the API
+
+- API will be available at: `http://localhost:8080/`
+- Use tools like Postman to test authentication and endpoints.
+
+---
 
 ## 📁 Project Structure
 
 ```
-BankMGT/
-├── src/
-│   └── main/
-│       └── java/com/BankMGT/BankMGT/
-│           ├── Controller/
-│           │   ├── AdminController.java
-│           │   ├── RegistrationController.java
-│           │   └── TransactionController.java
-│           └── TestController.java
-├── pom.xml
+src/
+ └── main/
+     ├── java/
+     │    └── controller/
+     │    └── service/
+     │    └── repository/
+     │    └── dto/
+     │    └── model/
+     ├── resources/
+     │    └── application.properties
 ```
 
-## 📝 Notes
+---
 
-- Use **Postman** to test the APIs.
-- Update `application.properties` if you want to configure port or database settings.
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!<br>
+Please fork the repository and create a pull request.
+
+---
+
+## 📜 License
+
+Currently, this project does not specify a license.
+
+---
+
+> **Repository:** [jianbot007/BankMGT](https://github.com/jianbot007/BankMGT)  
+> _Developed as a pet project by [jianbot007](https://github.com/jianbot007)_

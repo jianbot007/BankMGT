@@ -40,7 +40,7 @@ The **Bank Management System** is a full-featured backend application that manag
 ## 🛠️ Tech Stack
 
 - **Backend**: Spring Boot, Spring Security, JWT, Hibernate (JPA)
-- **Database**: H2 (for development), compatible with MySQL/PostgreSQL
+- **Database**: PostgreSQL
 - **Build Tool**: Maven/Gradle
 - **Language**: Java
 
